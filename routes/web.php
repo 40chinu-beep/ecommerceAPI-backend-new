@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\DB;
 
 
 Route::get('/',[HomeController::class,'home']);
@@ -76,4 +77,22 @@ route::get('delivered/{id}',[AdminController::class,'delivered'])->middleware(['
 
 route::get('print_pdf/{id}',[AdminController::class,'print_pdf'])->middleware(['auth','admin']);
 
-// Route::get('/ai',[HomeController::class,'ai']);
+
+
+
+
+
+Route::get('/db-test', function () {
+    try {
+        DB::connection()->getPdo();
+        return response()->json([
+            "status" => "success",
+            "message" => "DB Connected 👍"
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            "status" => "error",
+            "message" => $e->getMessage()
+        ]);
+    }
+});
